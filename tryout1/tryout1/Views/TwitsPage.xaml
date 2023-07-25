@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="tryout1.TwitsPage">
+    <ContentPage.Content>
+        <ListView x:Name="tweetListView"
+                  ItemsSource="{Binding Tweets}"
+                  SeparatorVisibility="None"
+                  HasUnevenRows="True">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <!-- Image with 100x100 frame -->
+                            <Frame WidthRequest="50"
+                                   HeightRequest="50"
+                                   CornerRadius="50"
+                                   Padding="0"
+                                   HorizontalOptions="Start">
+                                <Image Source="/Users/erenerten/Desktop/icon.png"
+                                       Aspect="AspectFit" />
+                            </Frame>
+
+                            <!-- StackLayout for the tweet information -->
+                            <StackLayout Padding="10" Margin="100,0,0,0">
+                                <Label Text="{Binding Username}"
+                                       FontAttributes="Bold" />
+                                <Label Text="{Binding Text}" />
+                                <!-- Add any other tweet information (e.g., date, likes, etc.) here -->
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

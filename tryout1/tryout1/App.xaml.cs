@@ -9,8 +9,9 @@ namespace tryout1
         public App ()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            MainPageViewModel vm = new MainPageViewModel();
+            var page = new MainPage(vm);
+            MainPage = new NavigationPage(page); ;
         }
 
         protected override void OnStart ()

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xamarin.Auth;
 
 using Foundation;
 using UIKit;
+using Xamarin.Forms;
 
 namespace tryout1.iOS
 {
@@ -22,11 +24,51 @@ namespace tryout1.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            global::Xamarin.Auth.Presenters.XamarinIOS.AuthenticationConfiguration.Init();
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
         }
+        
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+
+            // Convert the NSUrl to a string
+
+            var formsApp = Xamarin.Forms.Application.Current;
+
+            var mainPage = formsApp.MainPage;
+
+            if (mainPage is MainPage contentPage)
+            {
+                // Access the MainPageViewModel from the MainPage's BindingContext
+                var mainPageViewModel = contentPage.BindingContext as MainPageViewModel;
+
+                // Call the HandleOpenUrlData method if the MainPageViewModel is available
+                mainPageViewModel?.authV1.takeTokenAndVerifierAsyncV1(url);
+
+                var rootViewController = UIApplication.SharedApplication.KeyWindow.RootViewController;
+
+                // Dismiss the topmost presented view controller
+                if (rootViewController.PresentedViewController != null)
+                {
+                    rootViewController.PresentedViewController.DismissViewController(true, null);
+                }
+            }
+
+            return true;
+
+        }
+         
+
+        public override bool ContinueUserActivity(UIApplication application, NSUserActivity userActivity, UIApplicationRestorationHandler completionHandler) =>
+            Xamarin.Essentials.Platform.ContinueUserActivity(application, userActivity, completionHandler)
+            || base.ContinueUserActivity(application, userActivity, completionHandler);
+        
+
+
+
     }
 }
 
